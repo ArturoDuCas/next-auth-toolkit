@@ -9,7 +9,7 @@ import UserInfo from "@/components/userInfo";
 
 const ServerPage = async () => {
   const user = await currentUser();
-
+  // console.log(user);
   return (
       <UserInfo user={user} label="🏬 Server component" />
   );
