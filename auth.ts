@@ -60,6 +60,11 @@ export const {
         session.user.role = token.role;
       }
 
+      // pass 2FA to session
+      if (session.user) {
+        session.user.isTwoFactorEnabled = token.isTwoFactorEnabled;
+      }
+
       return session;
     },
     async jwt({token}) {
@@ -70,6 +75,7 @@ export const {
       if (!existingUser) return token; // user not found
 
       token.role = existingUser.role;
+      token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled;
 
       return token;
     },
