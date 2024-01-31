@@ -5,6 +5,7 @@ import {db} from "@/lib/db";
 import {getUserById} from "@/data/user";
 import authConfig from "@/auth.config";
 import { getTwoFactorConfirmationByUserId } from "@/data/twoFactorConfirmation";
+import {getAccountByUserId} from "@/data/account";
 
 
 export const {
@@ -60,9 +61,16 @@ export const {
         session.user.role = token.role;
       }
 
-      // pass 2FA to session
+      // pass user two-factor status to session
       if (session.user) {
         session.user.isTwoFactorEnabled = token.isTwoFactorEnabled;
+      }
+
+      // update username and email on every request
+      if (session.user) {
+        session.user.name = token.name;
+        session.user.email = token.email;
+        session.user.isOAuth = token.isOAuth;
       }
 
       return session;
@@ -71,9 +79,14 @@ export const {
       if (!token.sub) return token; // not logged in
 
       const existingUser = await getUserById(token.sub);
+      if (!existingUser) return token;
 
-      if (!existingUser) return token; // user not found
+      const existingAccount = await getAccountByUserId(existingUser.id);
 
+
+      token.isOAuth = !!existingAccount;
+      token.name = existingUser.name;
+      token.email = existingUser.email;
       token.role = existingUser.role;
       token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled;
 
