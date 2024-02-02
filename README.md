@@ -38,5 +38,5 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ## Resources
 https://youtu.be/1MTyCvS05V4?list=LL  
-I left off at 06:47:19
+I left off at 07:38:22
 
