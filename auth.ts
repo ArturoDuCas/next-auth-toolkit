@@ -8,6 +8,7 @@ import {getTwoFactorConfirmationByUserId} from "@/data/twoFactorConfirmation";
 import {getAccountByUserId} from "@/data/account";
 
 
+
 export const {
   handlers: {GET, POST},
   auth,
@@ -49,6 +50,7 @@ export const {
 
       return true;
     },
+    // @ts-ignore
     async session({token, session}) {
 
       // pass user id to session
